@@ -464,8 +464,8 @@
     init: function(o) {
       var self = this;
 
-	    // Use already created AudioContext if it is passed in.
-	    self._externalAudioContext = o.ctx || null;
+      // Use already created AudioContext if it is passed in.
+      Howler._externalAudioContext = o.ctx || undefined;
 
       // If we don't have an AudioContext created yet, run the setup.
       if (!Howler.ctx) {

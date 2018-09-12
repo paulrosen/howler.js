@@ -469,6 +469,9 @@
         setupAudioContext();
       }
 
+      // Use already created AudioContext if it is passed in.
+      self._externalAudioContext = o.ctx || null;
+
       // Setup user-defined default properties.
       self._autoplay = o.autoplay || false;
       self._format = (typeof o.format !== 'string') ? o.format : [o.format];
@@ -1150,6 +1153,11 @@
 
         return self;
       }
+
+      // Make sure the to/from/len values are numbers.
+      from = parseFloat(from);
+      to = parseFloat(to);
+      len = parseFloat(len);
 
       // Set the volume to the start position.
       self.volume(from, id);
@@ -2280,7 +2288,8 @@
     // Check if we are using Web Audio and setup the AudioContext if we are.
     try {
       if (typeof AudioContext !== 'undefined') {
-        Howler.ctx = new AudioContext();
+	    console.log("HOWLER", Howler._externalAudioContext)
+        Howler.ctx = Howler._externalAudioContext ? Howler._externalAudioContext : new AudioContext();
       } else if (typeof webkitAudioContext !== 'undefined') {
         Howler.ctx = new webkitAudioContext();
       } else {
@@ -2659,7 +2668,7 @@
               sound._panner.positionY.setValueAtTime(y, Howler.ctx.currentTime);
               sound._panner.positionZ.setValueAtTime(z, Howler.ctx.currentTime);
             } else {
-              sound._panner.setOrientation(x, y, z);
+              sound._panner.setPosition(x, y, z);
             }
           }
 

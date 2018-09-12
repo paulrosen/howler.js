@@ -469,6 +469,9 @@
         setupAudioContext();
       }
 
+      // Use already created AudioContext if it is passed in.
+      self._externalAudioContext = o.ctx || null;
+
       // Setup user-defined default properties.
       self._autoplay = o.autoplay || false;
       self._format = (typeof o.format !== 'string') ? o.format : [o.format];
@@ -2285,7 +2288,7 @@
     // Check if we are using Web Audio and setup the AudioContext if we are.
     try {
       if (typeof AudioContext !== 'undefined') {
-        Howler.ctx = new AudioContext();
+        Howler.ctx = Howler._externalAudioContext ? Howler._externalAudioContext : new AudioContext();
       } else if (typeof webkitAudioContext !== 'undefined') {
         Howler.ctx = new webkitAudioContext();
       } else {

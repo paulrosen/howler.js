@@ -2288,7 +2288,6 @@
     // Check if we are using Web Audio and setup the AudioContext if we are.
     try {
       if (typeof AudioContext !== 'undefined') {
-	    console.log("HOWLER", Howler._externalAudioContext)
         Howler.ctx = Howler._externalAudioContext ? Howler._externalAudioContext : new AudioContext();
       } else if (typeof webkitAudioContext !== 'undefined') {
         Howler.ctx = new webkitAudioContext();
